@@ -6,13 +6,14 @@ namespace ParkingPricer
     {
         static void Main(string[] args)
         {
-            var menu = new Menu("Please select flat rate:");
-            menu.AddOption("20min");
-            menu.AddOption("24h");
+            var menu = new Menu("Veuillez entrer un forfait :");
+            menu.AddOption("Courte durée");
+            menu.AddOption("Etagé");
+            menu.AddOption("Valet parc");
 
             int selectedOption = menu.Show();
 
-            Console.WriteLine("Please enter duration:");
+            Console.Write("Veuillez entrer une durée : ");
             var duration = Console.ReadLine();
 
             var parkingPricingManager = new ParkingPricerManager();
