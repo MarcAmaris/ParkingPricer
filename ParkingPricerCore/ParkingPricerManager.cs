@@ -1,25 +1,60 @@
 using System;
+using System.Globalization;
 
 namespace ParkingPricer
 {
     public class ParkingPricerManager
     {
-        public int GetActualPrice(string flatRateStr, string durationStr)
+        public int GetPrice(string flatRateStr, string durationStr)
         {
             ParkingFlatRate parkingFlatRate;
             if (!Enum.TryParse(flatRateStr, out parkingFlatRate)) throw new ArgumentException("Le forfait sélectionné est incorrect");
 
-            int duration = 0;
-            if (!int.TryParse(durationStr, out duration) || duration < 0) throw new ArgumentException("La durée entrée est incorrecte");
+            if (string.IsNullOrWhiteSpace(durationStr)) throw new ArgumentException("Veuillez entrer une valeur");
+            durationStr = durationStr.Replace(",", ".");
+            decimal duration = 0;
+            // set dot as decimal separator
+            var numberFormatInfo = new NumberFormatInfo { NumberDecimalSeparator = "." };
+            if (!decimal.TryParse(durationStr, NumberStyles.AllowDecimalPoint, numberFormatInfo, out duration) 
+                || duration < 0)
+            {
+                throw new ArgumentException("La durée entrée est incorrecte");
+            }
 
-            // calculate how much 20 min periods in duration there is
-            int durationTime = (int)Math.Ceiling((decimal)duration / (decimal)Consts.DurationTimePeriod);
+            return CalculatePrice(parkingFlatRate, duration);
+        }
 
-            // get theorical price without checking 24h period            
+        /// <summary>
+        /// Calculate real price based on given price and selected flat rate
+        /// </summary>
+        /// <param name="parkingFlatRate"></param>
+        /// <param name="theoricalPrice"></param>
+        /// <returns></returns>
+        private int CalculatePrice(ParkingFlatRate parkingFlatRate, decimal duration)
+        {
+            // get hours digit of duration
+            int hours = (int)Math.Truncate(duration);
+            // get number of days in duration
+            int days = (int)Math.Floor((double)(hours/24));
+
+            // get price limit per day per flat rate
+            int priceLimit = GetDayPriceLimit(parkingFlatRate);
+            // calculate price per day chose using price limit
+            int daysPrice = days * priceLimit;
+            
+            // get mins of duration as actual min (ex: 1.5, get 0.5 as min => 30)
+            int mins = (int)((duration - hours) * 60);            
+            // get remaining time modulo days as mins to calculate remaining price
+            // 25.5 as duration = 1.5 hour remaining = 90min
+            int remainingMinutes = ((hours - (days * 24)) * 60) + mins;
+
+            // get time periods from remaining min, divided by span of 20min
+            int minutesPeriods = (int)Math.Ceiling((decimal)remainingMinutes / (decimal)Consts.DurationTimePeriod);
             int pricePerFlatRate = GetPricePerFlatRate(parkingFlatRate);
-            int theoricalPrice = (int)(durationTime * pricePerFlatRate);
-
-            return GetRealPrice(parkingFlatRate, theoricalPrice);
+            int remainingTimePrice = minutesPeriods * pricePerFlatRate;
+            // price cannot exceed given amount per flatrate
+            if (remainingTimePrice > priceLimit) remainingTimePrice = priceLimit;
+            return daysPrice + remainingTimePrice;
         }
 
         /// <summary>
@@ -37,34 +72,18 @@ namespace ParkingPricer
                 default:
                     throw new ArgumentException("Le forfait sélectionné est incorrect");
             }
-        }       
-        
-        /// <summary>
-        /// Calculate real price based on given price and selected flat rate
-        /// </summary>
-        /// <param name="parkingFlatRate"></param>
-        /// <param name="theoricalPrice"></param>
-        /// <returns></returns>
-        public int GetRealPrice(ParkingFlatRate parkingFlatRate, int theoricalPrice)
+        }   
+
+        public int GetDayPriceLimit(ParkingFlatRate flatRate)
         {
-            int priceLimit = 0;
-            switch (parkingFlatRate)
-            {                
-                case ParkingFlatRate.ShortDuration: 
-                    priceLimit = Consts.ShortDurationLimitPrice;
-                    break;
-                case ParkingFlatRate.Floor:
-                    priceLimit = Consts.FloorLimitPrice;
-                    break;
-                case ParkingFlatRate.ValetParc: 
-                    priceLimit = Consts.ValetParcLimitPrice;
-                    break;
+            switch (flatRate)
+            {
+                case ParkingFlatRate.ShortDuration: return Consts.ShortDurationLimitPrice;
+                case ParkingFlatRate.Floor: return Consts.FloorLimitPrice;
+                case ParkingFlatRate.ValetParc: return Consts.ValetParcLimitPrice;
                 default:
                     throw new ArgumentException("Le forfait sélectionné est incorrect");
             }
-
-            if (theoricalPrice > priceLimit) theoricalPrice = priceLimit;
-            return theoricalPrice;
         }
     }
 
