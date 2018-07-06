@@ -6,7 +6,12 @@ namespace ParkingPricer
     {
         static void Main(string[] args)
         {
-            var menu = new Menu("Veuillez entrer un forfait :");
+            CalculateParkingPrice();
+        }
+
+        private static void CalculateParkingPrice()
+        {
+            var menu = new ConsoleMenu("Veuillez entrer un forfait :");
             menu.AddOption("Courte durée");
             menu.AddOption("Etagé");
             menu.AddOption("Valet parc");
