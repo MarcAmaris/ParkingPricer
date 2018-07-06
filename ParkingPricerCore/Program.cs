@@ -19,14 +19,16 @@ namespace ParkingPricer
             string flatRate = menu.Show();
 
             Console.WriteLine();
-            Console.Write("Veuillez entrer une durée : ");
+            Console.Write("Veuillez entrer une durée (en min) : ");
             var duration = Console.ReadLine();
+            Console.WriteLine();
 
             var parkingPricingManager = new ParkingPricerManager();
             
             try
             {
-                parkingPricingManager.ShowActualPrice(flatRate, duration);
+                int price = parkingPricingManager.GetActualPrice(flatRate, duration);
+                Console.WriteLine("Le prix calculée est de ${0}.", price);
             }
             catch (ArgumentException ex)
             {

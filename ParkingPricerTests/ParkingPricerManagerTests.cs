@@ -6,43 +6,43 @@ namespace ParkingPricer.Tests
     public class ParkingPricerManagerTests
     {
         [Test]
-        public void ShowActualPrice_flatRateAsValueNotInEnum_ExpectArgumentException()
+        public void GetActualPrice_FlatRateAsValueNotInEnum_ExpectArgumentException()
         {
             var parkingPricerManager = new ParkingPricerManager();
             string flatRate = "none";
             string duration = "0";
 
-            Assert.That(() => parkingPricerManager.ShowActualPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetActualPrice(flatRate, duration), Throws.ArgumentException);
         }
 
         [Test]
-        public void ShowActualPrice_flatRateAsNull_ExpectArgumentException()
+        public void GetActualPrice_FlatRateAsNull_ExpectArgumentException()
         {
             var parkingPricerManager = new ParkingPricerManager();
             string flatRate = null;
             string duration = "0";
 
-            Assert.That(() => parkingPricerManager.ShowActualPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetActualPrice(flatRate, duration), Throws.ArgumentException);
         }
 
         [Test]
-        public void ShowActualPrice_durationNotAsInt_ExpectArgumentException()
+        public void GetActualPrice_DurationNotAsInt_ExpectArgumentException()
         {
             var parkingPricerManager = new ParkingPricerManager();
             string flatRate = ParkingFlatRate.Floor.ToString();
             string duration = "a";
 
-            Assert.That(() => parkingPricerManager.ShowActualPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetActualPrice(flatRate, duration), Throws.ArgumentException);
         }
 
         [Test]
-        public void ShowActualPrice_durationAsNull_ExpectArgumentException()
+        public void GetActualPrice_DurationAsNull_ExpectArgumentException()
         {
             var parkingPricerManager = new ParkingPricerManager();
             string flatRate = ParkingFlatRate.Floor.ToString();
             string duration = null;
 
-            Assert.That(() => parkingPricerManager.ShowActualPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetActualPrice(flatRate, duration), Throws.ArgumentException);
         }
     }
 }
