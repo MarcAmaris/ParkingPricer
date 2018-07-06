@@ -37,6 +37,16 @@ namespace ParkingPricer.Tests
         }
 
         [Test]
+        public void GetActualPrice_DurationLessThan0_ExpectArgumentException()
+        {
+            var parkingPricerManager = new ParkingPricerManager();
+            string flatRate = ParkingFlatRate.Floor.ToString();
+            string duration = "-1";
+
+            Assert.That(() => parkingPricerManager.GetActualPrice(flatRate, duration), Throws.ArgumentException);
+        }
+
+        [Test]
         public void GetActualPrice_DurationAsNull_ExpectArgumentException()
         {
             var parkingPricerManager = new ParkingPricerManager();
