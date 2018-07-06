@@ -18,10 +18,12 @@ namespace ParkingPricer
 
             int selectedOption = menu.Show();
 
+            Console.WriteLine();
+
             Console.Write("Veuillez entrer une durée : ");
             var duration = Console.ReadLine();
 
-            var parkingPricingManager = new ParkingPricerManager();
+            var parkingPricingManager = new ParkingPricerManager(selectedOption, duration);
             parkingPricingManager.ShowActualPrice();
         }
     }
