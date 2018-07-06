@@ -6,7 +6,7 @@ namespace ParkingPricer
     {
         public void ShowActualPrice()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
