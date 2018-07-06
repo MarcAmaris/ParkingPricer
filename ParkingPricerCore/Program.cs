@@ -28,7 +28,7 @@ namespace ParkingPricer
             try
             {
                 int price = parkingPricingManager.GetActualPrice(flatRate, duration);
-                Console.WriteLine("Le prix calculée est de ${0}.", price);
+                Console.WriteLine("Le prix calculé est de ${0}.", price);
             }
             catch (ArgumentException ex)
             {

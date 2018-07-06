@@ -12,11 +12,11 @@ namespace ParkingPricer
             int duration = 0;
             if (!int.TryParse(durationStr, out duration) || duration < 0) throw new ArgumentException("La durée entrée est incorrecte");
 
-            int pricePerFlatRate = GetPricePerFlatRate(parkingFlatRate);
-
             // calculate how much 20 min periods in duration there is
-            double durationTime = Math.Ceiling((double)(duration / Consts.DurationTimePeriod));
-            // get theorical price without checking 24h period
+            int durationTime = (int)Math.Ceiling((decimal)duration / (decimal)Consts.DurationTimePeriod);
+
+            // get theorical price without checking 24h period            
+            int pricePerFlatRate = GetPricePerFlatRate(parkingFlatRate);
             int theoricalPrice = (int)(durationTime * pricePerFlatRate);
 
             return GetRealPrice(parkingFlatRate, theoricalPrice);
@@ -27,7 +27,7 @@ namespace ParkingPricer
         /// </summary>
         /// <param name="flatRate">selected flat rate</param>
         /// <returns></returns>
-        private int GetPricePerFlatRate(ParkingFlatRate flatRate)
+        public int GetPricePerFlatRate(ParkingFlatRate flatRate)
         {
             switch (flatRate)
             {
@@ -45,7 +45,7 @@ namespace ParkingPricer
         /// <param name="parkingFlatRate"></param>
         /// <param name="theoricalPrice"></param>
         /// <returns></returns>
-        private int GetRealPrice(ParkingFlatRate parkingFlatRate, int theoricalPrice)
+        public int GetRealPrice(ParkingFlatRate parkingFlatRate, int theoricalPrice)
         {
             int priceLimit = 0;
             switch (parkingFlatRate)
