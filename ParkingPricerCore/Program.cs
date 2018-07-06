@@ -19,12 +19,19 @@ namespace ParkingPricer
             string flatRate = menu.Show();
 
             Console.WriteLine();
-
             Console.Write("Veuillez entrer une durée : ");
             var duration = Console.ReadLine();
 
             var parkingPricingManager = new ParkingPricerManager();
-            parkingPricingManager.ShowActualPrice(flatRate, duration);
+            
+            try
+            {
+                parkingPricingManager.ShowActualPrice(flatRate, duration);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
