@@ -4,18 +4,28 @@ namespace ParkingPricer
 {
     public class ParkingPricerManager
     {
-        private int _flatRate;
-        private string _duration;
-
-        public ParkingPricerManager(int flatRate, string duration)
+        public void ShowActualPrice(string flatRateStr, string durationStr)
         {
-            _flatRate = flatRate;
-            _duration = duration;
-        }
+            ParkingFlatRate parkingFlatRate;
+            if (!Enum.TryParse(flatRateStr, out parkingFlatRate))
+            {
+                Console.WriteLine("Le forfait sélectionné est incorrect");
+                return;
+            }
 
-        public void ShowActualPrice()
-        {
-            
+            int duration = 0;
+            if (!int.TryParse(durationStr, out duration))
+            {
+                Console.WriteLine("La durée entrée est incorrecte");
+                return;
+            }
         }
+    }
+
+    public enum ParkingFlatRate
+    {
+        ShortDuration = 0,
+        Floor,
+        ValetParc
     }
 }

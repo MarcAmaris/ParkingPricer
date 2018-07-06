@@ -12,19 +12,19 @@ namespace ParkingPricer
         private static void CalculateParkingPrice()
         {
             var menu = new ConsoleMenu("Veuillez entrer un forfait :");
-            menu.AddOption("Courte durée");
-            menu.AddOption("Etagé");
-            menu.AddOption("Valet parc");
+            menu.AddOption(ParkingFlatRate.ShortDuration.ToString(), "Courte durée");
+            menu.AddOption(ParkingFlatRate.Floor.ToString(),"Etagé");
+            menu.AddOption(ParkingFlatRate.ValetParc.ToString(), "Valet parc");
 
-            int selectedOption = menu.Show();
+            string flatRate = menu.Show();
 
             Console.WriteLine();
 
             Console.Write("Veuillez entrer une durée : ");
             var duration = Console.ReadLine();
 
-            var parkingPricingManager = new ParkingPricerManager(selectedOption, duration);
-            parkingPricingManager.ShowActualPrice();
+            var parkingPricingManager = new ParkingPricerManager();
+            parkingPricingManager.ShowActualPrice(flatRate, duration);
         }
     }
 }
