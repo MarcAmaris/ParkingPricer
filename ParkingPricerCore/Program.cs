@@ -13,12 +13,11 @@ namespace ParkingPricer
         {
             string flatRate = ShowFlatRateMenu();
             string duration = ShowDurationMenu();
-
-            var parkingPricingManager = new ParkingPricerManager();
             
             try
-            {
-                int price = parkingPricingManager.GetPrice(flatRate, duration);
+            {    
+                var parkingPricingManager = ParkingPricerFactory.Create(flatRate);
+                int price = parkingPricingManager.GetPrice(duration);
                 Console.WriteLine("Le prix calculé est de ${0}.", price);
             }
             catch (ArgumentException ex)

@@ -7,170 +7,150 @@ namespace ParkingPricer.Tests
     {
         #region GetPrice
         [Test]
-        public void GetPrice_FlatRateAsValueNotInEnum_ExpectArgumentException()
-        {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = "none";
-            string duration = "0";
-
-            Assert.That(() => parkingPricerManager.GetPrice(flatRate, duration), Throws.ArgumentException);
-        }
-
-        [Test]
-        public void GetPrice_FlatRateAsNull_ExpectArgumentException()
-        {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = null;
-            string duration = "0";
-
-            Assert.That(() => parkingPricerManager.GetPrice(flatRate, duration), Throws.ArgumentException);
-        }
-
-        [Test]
         public void GetPrice_DurationNotAsInt_ExpectArgumentException()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.Floor.ToString();
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "a";
 
-            Assert.That(() => parkingPricerManager.GetPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetPrice(duration), Throws.ArgumentException);
         }
 
         [Test]
         public void GetPrice_DurationLessThan0_ExpectArgumentException()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.Floor.ToString();
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "-1";
 
-            Assert.That(() => parkingPricerManager.GetPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetPrice(duration), Throws.ArgumentException);
         }
 
         [Test]
         public void GetPrice_DurationAsNull_ExpectArgumentException()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.Floor.ToString();
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = null;
 
-            Assert.That(() => parkingPricerManager.GetPrice(flatRate, duration), Throws.ArgumentException);
+            Assert.That(() => parkingPricerManager.GetPrice(duration), Throws.ArgumentException);
         }
 
         [Test]
         public void GetPrice_FlatRateAsShortDurationAndDurationAs0_Expect0()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.ShortDuration.ToString();
+            string flatRate = ParkingFlatRate.ShortDuration.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "0.0";
             int expected = 0;
 
-            int result = parkingPricerManager.GetPrice(flatRate, duration);
+            int result = parkingPricerManager.GetPrice(duration);
             Assert.AreEqual(expected, result, "Price must be 0");
         }
 
         [Test]
         public void GetPrice_FlatRateAsShortDurationAndDurationAs1_Expect18()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.ShortDuration.ToString();
+            string flatRate = ParkingFlatRate.ShortDuration.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "1";
             int expected = 18;
 
-            int result = parkingPricerManager.GetPrice(flatRate, duration);
+            int result = parkingPricerManager.GetPrice(duration);
             Assert.AreEqual(expected, result, "Price must be 18");
         }
 
         [Test]
         public void GetPrice_FlatRateAsShortDurationAndDurationAs12_Expect37()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.ShortDuration.ToString();
+            string flatRate = ParkingFlatRate.ShortDuration.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "12";
             int expected = 37;
 
-            int result = parkingPricerManager.GetPrice(flatRate, duration);
+            int result = parkingPricerManager.GetPrice(duration);
             Assert.AreEqual(expected, result, "Price must be 37");
         }
 
         [Test]
         public void GetPrice_FlatRateAsFloorAndDurationAs25dot5_Expect60()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            string flatRate = ParkingFlatRate.Floor.ToString();
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             string duration = "25.5";
             int expected = 60;
 
-            int result = parkingPricerManager.GetPrice(flatRate, duration);
+            int result = parkingPricerManager.GetPrice(duration);
             Assert.AreEqual(expected, result, "Price must be 60");
         }
         #endregion
 
-        #region GetPricePerFlatRate
+        #region PricePerFlatRate
         [Test]
-        public void GetPricePerFlatRate_FlatRateAsShortDuration_Expect6()
+        public void PricePerFlatRate_FlatRateAsShortDuration_Expect6()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.ShortDuration;
+            string flatRate = ParkingFlatRate.ShortDuration.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 6;
 
-            int result = parkingPricerManager.GetPricePerFlatRate(flatRate);
+            int result = parkingPricerManager.PricePerFlatRate;
             Assert.AreEqual(expected, result, "Price per FlatRate must be 6");
         }
 
         [Test]
-        public void GetPricePerFlatRate_FlatRateAsFloor_Expect6()
+        public void PricePerFlatRate_FlatRateAsFloor_Expect6()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.Floor;
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 6;
 
-            int result = parkingPricerManager.GetPricePerFlatRate(flatRate);
+            int result = parkingPricerManager.PricePerFlatRate;
             Assert.AreEqual(expected, result, "Price per FlatRate must be 6");
         }
 
         [Test]
-        public void GetPricePerFlatRate_FlatRateAsValetParc_Expect12()
+        public void PricePerFlatRate_FlatRateAsValetParc_Expect12()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.ValetParc;
+            string flatRate = ParkingFlatRate.ValetParc.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 12;
 
-            int result = parkingPricerManager.GetPricePerFlatRate(flatRate);
+            int result = parkingPricerManager.PricePerFlatRate;
             Assert.AreEqual(expected, result, "Price per FlatRate must be 12");
         }
         #endregion
 
-        #region GetDayPriceLimit
+        #region DayPriceLimit
         [Test]
-        public void GetDayPriceLimit_FlatRateAsShortDuration_Expect37()
+        public void DayPriceLimit_FlatRateAsShortDuration_Expect37()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.ShortDuration;
+            string flatRate = ParkingFlatRate.ShortDuration.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 37;
 
-            int result = parkingPricerManager.GetDayPriceLimit(flatRate);
+            int result = parkingPricerManager.DayPriceLimit;
             Assert.AreEqual(expected, result, "Day price limit must be 37");
         }
 
         [Test]
-        public void GetDayPriceLimit_FlatRateAsFloor_Expect30()
+        public void DayPriceLimit_FlatRateAsFloor_Expect30()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.Floor;
+            string flatRate = ParkingFlatRate.Floor.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 30;
 
-            int result = parkingPricerManager.GetDayPriceLimit(flatRate);
+            int result = parkingPricerManager.DayPriceLimit;
             Assert.AreEqual(expected, result, "Day price limit must be 30");
         }
 
         [Test]
-        public void GetDayPriceLimit_FlatRateAsValetParc_Expect42()
+        public void DayPriceLimit_FlatRateAsValetParc_Expect42()
         {
-            var parkingPricerManager = new ParkingPricerManager();
-            var flatRate = ParkingFlatRate.ValetParc;
+            string flatRate = ParkingFlatRate.ValetParc.ToString();            
+            var parkingPricerManager = ParkingPricerFactory.Create(flatRate);
             int expected = 42;
 
-            int result = parkingPricerManager.GetDayPriceLimit(flatRate);
+            int result = parkingPricerManager.DayPriceLimit;
             Assert.AreEqual(expected, result, "Day price limit must be 42");
         }
         #endregion
