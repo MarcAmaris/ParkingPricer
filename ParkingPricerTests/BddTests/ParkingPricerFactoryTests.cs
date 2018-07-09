@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using ParkingPricer;
 
-namespace ParkingPricer.Tests
+namespace ParkingPricer.Tests.Bdd
 {
     [TestFixture]
     public class ParkingPricerFactoryTests
