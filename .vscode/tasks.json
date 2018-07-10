@@ -1,0 +1,36 @@
+{
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "build",
+                "command": "dotnet",
+                "type": "process",
+                "args": [
+                    "build",
+                    "${workspaceFolder}/ParkingPricerCore/ParkingPricerCore.csproj"
+                ],
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "launch",
+                "command": "dotnet",
+                "type": "process",
+                "args": [
+                    "run",
+                    "--project",
+                    "${workspaceFolder}/ParkingPricerCore/ParkingPricerCore.csproj"
+                ],
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "test",
+                "command": "dotnet",
+                "type": "process",
+                "args": [
+                    "test",
+                    "${workspaceFolder}/ParkingPricerTests/ParkingPricerTests.csproj"
+                ],
+                "problemMatcher": "$msCompile"
+            }
+        ]
+    }
