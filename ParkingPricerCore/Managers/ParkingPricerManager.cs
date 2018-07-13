@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace ParkingPricer
+namespace ParkingPricerCore.Managers
 {
     public abstract class ParkingPricerManager : IParkingPricerManager
     {

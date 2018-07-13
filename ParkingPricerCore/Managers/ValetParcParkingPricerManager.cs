@@ -1,4 +1,4 @@
-namespace ParkingPricer
+namespace ParkingPricerCore.Managers
 {
     public sealed class ValetParcParkingPricerManager : ParkingPricerManager
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace ParkingPricer
+namespace ParkingPricerCore.Managers
 {
     public static class ParkingPricerFactory
     {
@@ -18,12 +18,5 @@ namespace ParkingPricer
                     throw new ArgumentException("Le forfait sélectionné est incorrect");
             }
         }
-    }  
-
-    public enum ParkingFlatRate
-    {
-        ShortDuration = 0,
-        Floor,
-        ValetParc
     }
 }

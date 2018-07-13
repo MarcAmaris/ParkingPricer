@@ -1,4 +1,4 @@
-namespace ParkingPricer
+namespace ParkingPricerCore.Managers
 {
     public interface IParkingPricerManager
     {

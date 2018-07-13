@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace ParkingPricer
+namespace ParkingPricerCore
 {
     /// <summary>
     /// Display a menu with options in cmd
     /// </summary>
-    public class ConsoleMenu
+    public class ConsoleMenu: IConsoleMenu
     {
         private List<string> _keys = new List<string>();
         private List<string> _values = new List<string>();
@@ -75,5 +75,9 @@ namespace ParkingPricer
             // break while if enter is pressed and return selected option key
             return _keys[selectedOptionIndex];
         }
+    }
+
+    public interface IConsoleMenu
+    {
     }
 }

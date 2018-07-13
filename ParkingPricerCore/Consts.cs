@@ -1,4 +1,4 @@
-namespace ParkingPricer
+namespace ParkingPricerCore
 {
     public static class Consts
     {
